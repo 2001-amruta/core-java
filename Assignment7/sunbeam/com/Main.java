@@ -1,14 +1,21 @@
-//2. Use Arrays.sort() to sort array of Students using Comparator. The 1st level sorting should be on city
-//(desc), 2nd level sorting should be on marks (desc), 3rd level sorting should be on name (asc).
+//2. Use Arrays.sort() to sort array of Students using Comparator. 
+//The 1st level sorting should be on city (desc),
+//2nd level sorting should be on marks (desc),
+//3rd level sorting should be on name (asc).
+
 package sunbeam.com;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-class Student {
+class Student implements Comparator<Student> {
     private String name;
     private String city;
     private double marks;
+
+    public Student() {
+        
+    }
 
     public Student(String name, String city, double marks) {
         this.name = name;
@@ -32,6 +39,21 @@ class Student {
     public String toString() {
         return "Student [name=" + name + ", city=" + city + ", marks=" + marks + "]";
     }
+
+    @Override
+    public int compare(Student s1, Student s2) {
+        
+        int diff = s2.getCity().compareTo(s1.getCity());
+        if (diff == 0) {
+         
+            diff = Double.compare(s2.getMarks(), s1.getMarks());
+        }
+        if (diff == 0) {
+            
+            diff = s1.getName().compareTo(s2.getName());
+        }
+        return diff;
+    }
 }
 
 public class Main {
@@ -44,22 +66,12 @@ public class Main {
                 new Student("Anisha", "Mumbai", 70)
         };
 
-        Arrays.sort(students, (s1, s2) -> 
-        {
-            if (!s1.getCity().equals(s2.getCity())) 
-                return s2.getCity().compareTo(s1.getCity());
-            else if (s1.getMarks() != s2.getMarks()) 
-                return Double.compare(s2.getMarks(), s1.getMarks());
-            else 
-                return s1.getName().compareTo(s2.getName());
-        });
+       
+        Arrays.sort(students, new Student());
 
-
-        for (Student student : students) 
-        {
+        
+        for (Student student : students) {
             System.out.println(student);
         }
     }
 }
-
-
